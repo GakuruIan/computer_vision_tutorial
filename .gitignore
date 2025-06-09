@@ -1,0 +1,7 @@
+videos/
+handtracking/
+
+
+__pycache__/
+*.pyc
+*.pyo
