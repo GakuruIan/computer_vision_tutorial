@@ -33,7 +33,7 @@ class HandTracker:
                     if annotate:
                         cv2.putText(frame, str(id), (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
                         cv2.circle(frame, (cx, cy), 5, (0, 255, 0), -1)
-                    landmarks_list.append((id, cx, cy))
+                    landmarks_list.append((id, cx, cy,lm.z))
                 self.mp_drawing.draw_landmarks(frame, hand_landmarks, self.mp_hands.HAND_CONNECTIONS)
             
         return frame, landmarks_list
