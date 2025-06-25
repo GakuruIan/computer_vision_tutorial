@@ -5,6 +5,7 @@ from FaceDetection import FaceDetector
 from FaceMesh import Facemesh
 
 from GestureVolumeControl.GestureHandler import GestureHandler
+from FingerCounting.FingerCounter import FingerCounter
 
 def main():
     video_path = 'videos/face2.mp4'
@@ -13,7 +14,9 @@ def main():
     # pose_estimator = PoseEstimator()
     # face_detector = FaceDetector()
     # face_mesh = Facemesh(max_num_faces=2)
-    gesture = GestureHandler()
+    # gesture = GestureHandler()
+    
+    fingerCounter =FingerCounter()
 
     frame_width = int(cam.get(cv2.CAP_PROP_FRAME_WIDTH))
     frame_height = int(cam.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -30,11 +33,11 @@ def main():
         
         cv2.flip(frame, 1, frame)
         # frame, landmarks = hand_tracker.process_frame(frame, annotate=True)
-        gesture.get_gesture(frame)
+        frame = fingerCounter.CountFingers(frame)
 
-
+        
         # out.write(frame)
-        cv2.imshow('Face Mesh', frame)
+        cv2.imshow('Finger Counting', frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

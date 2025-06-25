@@ -7,7 +7,7 @@ import math
 
 class GestureHandler:
     def __init__(self):
-        self.hand_tracker = HandTracker(detectionCon=0.7)
+        self.hand_tracker = HandTracker(detectionCon=0.75)
         
         
         devices = AudioUtilities.GetSpeakers()

@@ -24,16 +24,32 @@ class HandTracker:
         frameRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         results = self.hands.process(frameRGB)
         landmarks_list =[]
+        handedness_list =[]
+        
 
-        if results.multi_hand_landmarks:
-            for hand_landmarks in results.multi_hand_landmarks:
+        if results.multi_hand_landmarks and results.multi_handedness:
+            for hand_landmarks,hand_handedness in zip(results.multi_hand_landmarks,results.multi_handedness):
+                single_hand_landmarks = []
                 for id,lm in enumerate(hand_landmarks.landmark):
                     h, w, _ = frame.shape
                     cx, cy = int(lm.x * w), int(lm.y * h)
                     if annotate:
+                       
                         cv2.putText(frame, str(id), (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
                         cv2.circle(frame, (cx, cy), 5, (0, 255, 0), -1)
-                    landmarks_list.append((id, cx, cy,lm.z))
+                    single_hand_landmarks.append((id, cx, cy,lm.z))
+                
+                landmarks_list.append(single_hand_landmarks)
+                handedness_label = hand_handedness.classification[0].label
+                handedness_list.append(handedness_label)
+                
+                if annotate :
+                    wrist_x,wrist_y = single_hand_landmarks[0][1],single_hand_landmarks[0][2]
+                            
+                    cv2.putText(frame,f"{hand_handedness.classification[0].label} hand",(wrist_x - 50, wrist_y + 30),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 0), 2) 
                 self.mp_drawing.draw_landmarks(frame, hand_landmarks, self.mp_hands.HAND_CONNECTIONS)
+                
+                
             
-        return frame, landmarks_list
+        return frame, landmarks_list,handedness_list
