@@ -14,7 +14,7 @@ def main():
     video_path = 'videos/curls.mp4'
     cam = cv2.VideoCapture(video_path)
     # hand_tracker = HandTracker()
-    pose_estimator = PoseEstimator()
+    pose_estimator = PoseEstimator(detectionCon=0.9)
     # face_detector = FaceDetector()
     # face_mesh = Facemesh(max_num_faces=2)
     # gesture = GestureHandler()
@@ -35,7 +35,7 @@ def main():
         if not ret:
             break
         
-        #cv2.flip(frame, 1, frame)
+        # cv2.flip(frame, 1, frame)
         frame = resize_with_aspect_ratio(frame, width=600, height=500)
         # frame, landmarks = hand_tracker.process_frame(frame, annotate=True)
         # frame = fingerCounter.CountFingers(frame)

@@ -73,21 +73,19 @@ class PoseEstimator:
         
         per_r = np.interp(angle_r,(170,330),(0,100))
         
-        per_l = np.interp(angle_l,(170,335),(0,100))
+        per_l = np.interp(angle_l,(170,330),(0,100))
         
         
-        print({"Angle ":angle_r,"percentage ":per_r})
-        
-        if per_r == 100:
+        if per_r > 90:
             self.stage_right = "down"
-        if per_r < 40 and self.stage_right == "down":
+        if int(per_r) < 20 and self.stage_right == "down":
             self.stage_right = "up"
             self.counter_right += 1
         
-        if per_l == 100:
+        if per_l > 90:
             self.stage_left = "down"
             
-        if per_l < 40 and self.stage_left == "down":
+        if int(per_l) < 20 and self.stage_left == "down":
             self.stage_left = "up"
             self.counter_left += 1
         
